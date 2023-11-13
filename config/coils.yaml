@@ -1,0 +1,154 @@
+#config_version=5
+# Bank A and C tested Jan 4, 2022 all coil ports working
+
+autofire_coils:
+  top_jet:
+    coil: c_tjet
+    switch: s_tjet
+  bottom_jet:
+    coil: c_bjet
+    switch: s_bjet
+  left_slingshot:
+    coil: c_lslingshot
+    switch: s_lslingshot
+
+coils:
+# Non autofired coil 0-0-n
+# ---------------------------------------
+# Solenoid Bank A (Non Autofired Coils)
+# ---------------------------------------
+# Knocker
+  c_knocker:
+    number: 0-0-8
+    pulse_events: 
+      - replay
+      - extra_ball_score_one_awarded
+      - match_has_match
+    label:
+    tags:
+    default_pulse_ms: 8
+
+# Outhole 
+  c_outhole:
+    number: 0-0-9
+    label:
+    tags:
+    default_pulse_ms: 18
+
+# Reset drop target bank
+  c_rbdropreset:
+    number: 0-0-10
+    label:
+    tags:
+    default_pulse_ms: 26
+
+  c_gameover_relay:
+    number: 0-0-11
+    label:
+    default_pulse_ms: 5
+    allow_enable: true
+    default_hold_power: 1.0
+    enable_events:
+      - ball_started
+      - enable_flippers
+    disable_events:
+      - ball_ended
+      - disable_flippers
+    tags:
+    
+  c_tilt_relay:
+    number: 0-0-0
+    label:
+    default_pulse_ms: 5
+    allow_enable: true   
+    default_hold_power: 1.0 
+
+# Spare unused coil  
+  c_reserve1:
+    number: 0-0-12
+    label:
+    tags:
+    default_pulse_ms: 5
+
+# Spare unused coil    
+  c_reserve2:
+    number: 0-0-13
+    label:
+    tags:
+    default_pulse_ms: 5
+    
+ # Spare unused coil    
+  c_reserve3:
+    number: 0-0-14
+    label:
+    tags:
+    default_pulse_ms: 5   
+
+# ---------------------------------------    
+# Solenoid Bank B (Non Autofired Coils)
+# ---------------------------------------
+  c_relay1:
+    number: 0-0-15
+    label:
+    tags:
+    default_hold_power: 1.0
+  c_relay2:
+    number: 0-0-7
+    label:
+    tags:
+    default_hold_power: 1.0  
+
+# ---------------------------------------    
+# Solenoid Bank C Auto fired coils 1-0-n
+# ---------------------------------------
+  c_flipper_left_main:
+    number: 1-0-0
+    default_pulse_ms: 8
+    allow_enable: true
+    default_hold_power: 1.0
+  c_flipper_right_main:
+    number: 1-0-7
+    default_pulse_ms: 8
+    allow_enable: true
+    default_hold_power: 1.0
+
+# Bumpers
+  c_tjet:
+    number: 1-0-6
+    label:
+    tags:
+    default_pulse_ms: 10
+  c_bjet:
+    number: 1-0-5
+    label:
+    tags:
+    default_pulse_ms: 10
+
+# Rotor spinner coil
+  c_rotor:
+    number: 1-0-4
+    default_pulse_ms: 12
+# Disable the rotor till its fixed
+#    pulse_events:
+#     - spinit
+
+# Left slingshot 
+  c_lslingshot:
+    number: 1-0-3
+    default_pulse_ms: 10
+
+# Spare unused coil  
+  c_reserve4:
+    number: 1-0-2
+    label:
+    tags:
+    default_pulse_ms: 5
+# Spare unused coil    
+  c_reserve5:
+    number: 1-0-1
+    label:
+    tags:
+    default_pulse_ms: 5
+    
+
+

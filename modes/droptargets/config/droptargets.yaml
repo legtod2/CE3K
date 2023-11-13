@@ -1,0 +1,86 @@
+#config_version=5
+
+mode:
+  start_events: ball_started
+  priority: 110
+
+# Knock down all 5 right bank drop targets and increase multiplier to max of 5x
+counters:
+# Right bank counter
+  rb_DROP_complete_count:
+    count_events: RDROP_lanes_complete
+    events_when_hit: RDROP_lanes_done
+    starting_count: 1
+    direction: up
+    count_complete_value: 6
+    disable_on_complete: true
+    persist_state: false
+
+
+slide_player:
+  RDROP_lanes_done: 
+    slide_10:
+      expire: 2s
+
+slides:
+  slide_10:
+  - type: text
+    text: (multiplier)X
+
+sound_player:
+# Replace these sound with something better
+  player_multiplier{value==2}: standup_hit_lit
+  player_multiplier{value==3}: standup_hit_lit
+  player_multiplier{value==4}: standup_hit_lit
+  player_multiplier{value==5}: standup_hit_lit
+
+shots:
+  right_drop1:
+    switch: s_rbdrop1
+  right_drop2:
+    switch: s_rbdrop2
+  right_drop3:
+    switch: s_rbdrop3
+  right_drop4:
+    switch: s_rbdrop4
+  right_drop5:
+    switch: s_rbdrop5
+
+shot_groups:
+  RDROP_lanes:
+    shots: right_drop1, right_drop2, right_drop3, right_drop4, right_drop5
+    reset_events:
+      RDROP_lanes_lit_complete: 1s
+
+variable_player:
+# Right bank drop targets
+  RDROP_lanes_done{count>=2}:
+    my_multiplier: 1
+    multiplier:
+      int: current_player.my_multiplier if current_player.my_multiplier <= 5 else 5
+      action: set
+  RDROP_lanes_complete:
+    score: 1000 * current_player.multiplier
+
+show_player:
+# Turn on 2x multiplier playfield lamp
+  player_multiplier{value==2}:
+    playfield_light:
+      show_tokens:
+        lights: l_multiplier2x
+        color1: yellow
+  player_multiplier{value==3}:
+    playfield_light:
+      show_tokens:
+        lights: l_multiplier3x
+        color1: yellow
+  player_multiplier{value==4}:
+    playfield_light:
+      show_tokens:
+        lights: l_multiplier4x
+        color1: yellow
+  player_multiplier{value==5}:
+    playfield_light:
+      show_tokens:
+        lights: l_multiplier5x
+        color1: yellow

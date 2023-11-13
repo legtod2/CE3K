@@ -1,0 +1,440 @@
+#config_version=5
+#
+# Close Encounters of a Third Kind
+# Mission Pinball Framework Version .55 Oct 2021
+# Author: Todd Legere
+# Instructions:
+
+# To test virtual machine version start two terminal sesssions 
+# 1) mpf both -X 
+# 2) mpf monitor
+# On the virtual monitor you will find virtual buttons for 
+# Start, Coins, ShutdownPC, Service Coin door open, Service_enter, Service_esc, Service_down, Service_up
+# See Operators manual in this folder for details
+# An extra credit is awarded at end of game if score greater than replay score (See setting replay score) and credits
+# 
+# To execute component test (make sure you are in phoenix folder)
+# python3 -m unittest discover
+#
+
+
+hardware:
+  platform: opp
+  driverboards: gen2
+  rgb_dmd: smartmatrix
+
+opp:
+#  ports: /dev/ttyACM0, /dev/ttyACM1
+  ports: /dev/opp1, /dev/opp2
+smartmatrix:
+  smartmatrix_1:
+#    port: /dev/ttyACM2
+    port: /dev/teensy
+#    baud: 2500000
+    baud: 115200
+    old_cookie: false
+
+rgb_dmds:
+  smartmatrix_1:
+    hardware_brightness: .17
+    source_display: dmd
+
+machine:
+  balls_installed: 5
+  min_balls: 1
+
+virtual_platform_start_active_switches: s_outhole
+
+mpf-mc:
+  fps: 60
+
+window:
+  width: 1280 
+  height: 1024
+  title: Close Encounters of a Third Kind
+  resizable: true
+  fullscreen: false
+  borderless: false
+  exit_on_escape: true
+  source_display: window
+
+displays:
+  window:
+    width: 800
+    height: 600
+  dmd:
+    width: 128
+    height: 32
+    default: true
+
+light_player:
+  s_laneA_active:
+    l_laneA: ff
+  s_laneB_active:
+    l_laneB: ff
+  s_laneC_active:
+    l_laneC: ff
+
+
+sound_player:
+  s_start_active: 1000_pts
+  s_door_open_active: 1000_pts
+  s_service_enter_active: 1000_pts
+  s_service_up_active: 1000_pts
+  s_service_down_active: 1000_pts
+  s_shutdown_active: game_over
+  s_coin_btn_active: coin_inserted
+  s_left_coin_active: coin_inserted
+  
+drop_targets:
+  right_drop1:
+    switch: s_rbdrop1
+    debug: True
+  right_drop2:
+    switch: s_rbdrop2
+    debug: True
+  right_drop3:
+    switch: s_rbdrop3
+    debug: True
+  right_drop4:
+    switch: s_rbdrop4
+    debug: True
+  right_drop5:
+    switch: s_rbdrop5
+    debug: True
+
+drop_target_banks:
+  right_bank:
+    drop_targets: right_drop1, right_drop2, right_drop3, right_drop4, right_drop5
+    reset_coils: c_rbdropreset
+    reset_events:
+      ball_started 
+    reset_on_complete: 1s
+
+playfields:
+  playfield:
+    default_source_device: trough
+    tags: default
+
+ball_devices:
+  trough:
+    eject_coil: c_outhole
+    ball_switches: s_outhole
+    debug: true
+    tags: trough, home, drain
+
+# Using EOS Switch so no hold_coil required
+flippers:
+  left_flipper:
+    main_coil: c_flipper_left_main
+    activation_switch: s_flipper_left
+    enable_events: ball_started #machine_reset_phase_3 #For testing
+    disable_events: ball_will_end, service_mode_entered
+  right_flipper:
+    main_coil: c_flipper_right_main
+    activation_switch: s_flipper_right
+    enable_events: ball_started #machine_reset_phase_3 
+    disable_events: ball_will_end, service_mode_entered
+
+slides:
+  window_slide_1:
+  - type: display
+    width: 512
+    height: 128
+    anchor_y: bottom
+    y: 5
+    effects:
+      - type: dmd
+#        dot_color: ff5500
+#        background_color: 220000
+  - type: rectangle
+    width: 514
+    height: 130
+    color: 444444
+    anchor_y: bottom
+    y: 5
+  - type: image
+    image: ce3k
+    anchor_y: top
+    anchor_x: left
+    y: top
+    x: 0
+
+  dmd_slide_1:
+  - type: text
+    text: IT WORKS
+    font_size: 20
+    color: ff5500
+
+  waiting_for_connection:
+  - type: text
+    text: WAITING FOR MPF CONNECTION
+
+  asset_status:
+  - type: text
+    text: "LOADING ASSETS: (percent)%"
+
+slide_player:
+  init_done:
+    window_slide_1:
+      target: window
+    dmd_slide_1:
+      target: dmd
+  loading_assets: asset_status
+
+config:
+- keyboard.yaml
+- lights.yaml
+- coils.yaml
+- switches.yaml
+
+smart_virtual:
+  file_log: full
+
+mpf:
+  default_pulse_ms: 20
+
+# Give cobrapin capacitors time to charge after firing flippers
+psus:
+  default:
+    release_wait_ms: 50
+
+modes:
+- base
+- attract
+- bonus
+- high_score
+- tilt
+- droptargets
+- abc_lanes
+- service
+- credits
+- match
+- shoot_again
+- shutdown_computer
+
+player_vars:
+  bullseye_value:
+    initial_value: 1000
+
+
+# My tilted warning
+  my_tilted:
+    initial_value: 0
+# No replay at settings.replay_score_level1 awarded yet
+  replay_level_1:
+    initial_value: 0
+# Used in shoot_again.yaml & set in spell_phoenix.yaml and reset in base.yaml
+  my_extraball_awarded:
+    initial_value: 0
+# Spinner value Initial value 100 increases to 1,000 when 10,000 playfield bomus lamp lit
+  spinner_value:
+    initial_value: 100
+# See base.yaml & spell_phoenix.yaml for bullseye_bonus start val 5,000 to max 40,000
+  bullseye_bonus:
+    initial_value: 5000
+# See mode/droptarget.yaml, Drop all 5 drop targets & increase multiplier. start value 1 to max 5
+  my_multiplier:
+    value_type: int
+    initial_value: 1
+  multiplier:
+    value_type: int
+    initial_value: 1
+  bonus:
+    value_type: int
+    initial_value: 0
+# Turn on extra ball lamp when Top lane A B C completed lite give extra if Bullseye hit
+  extraball_lamp_on:
+    value_type: int
+    initial_value: 0
+# Turn on spinner lamp when bonus >=10 and bonus <=20
+  spinner_lamp_on:
+    value_type: int
+    initial_value: 0
+
+# Used by service mode (Adjustments) replay score, # of balls, max_credits (settings), tilt warnings, tilt wait, tilt sensitivity
+settings:
+  warnings_to_tilt:
+    label: Number of tilt warnings
+    values:
+      0: "no warnings"
+      1: "1"
+      2: "2"
+      3: "3"
+      5: "5"
+      10: "10"
+    default: 3
+    key_type: int
+    sort: 600
+  settle_time:
+    label: Time to wait on tilt to settle bob
+    values:
+      3000: "3s"
+      5000: "5s"
+      10000: "10s"
+    default: 5000
+    key_type: int
+    sort: 610
+  multiple_hit_window:
+    label: Tilt sensitivity
+    values:
+      150: "sensitive"
+      300: "normal"
+      500: "insensitive"
+      1000: "very insensitive"
+    default: 300
+    key_type: int
+    sort: 620
+
+  replay_score:
+    label: Replay Score
+    values:
+      230000: "230000 (default)"
+      330000: "330000"
+      500000: "500000"
+    default: 230000
+    key_type: int
+    sort: 100
+  balls_per_game:
+    label: Balls per game
+    values:
+      3: "3 (default)"
+      5: "5"
+    default: 3
+    key_type: int
+    sort: 100
+
+# Used by credits.yaml
+  max_credits:
+    label: Max Credits
+    values:
+      10: "10"
+      20: "20 (Default)"
+    default: 20
+    key_type: int
+    sort: 100
+
+# Service Menu (Adjustments) allows changing # balls per game 
+game:
+  balls_per_game: 3 if settings.balls_per_game==0 else settings.balls_per_game
+  max_players: 4
+
+# Service Menu (Adjustments) allows changing credits 
+credits:
+  max_credits: 20 if settings.max_credits==0 else settings.max_credits
+# Set To coins required. Change free_play: true for Free play (I prefer adding coins)
+  free_play: false
+  price_tier_template: "{{credits}} CREDITS ${{price}}"
+# Give free credit by pressing s_service_esc switch
+  service_credits_switch: s_coin_btn
+  switches:
+    - switch: s_left_coin
+      type: dollars
+      value: 1
+    - switch: s_coin_btn
+      type: dollars
+      value: 1
+  pricing_tiers:
+    - price: 1
+      credits: 1
+
+  events:
+    - event: add_credit
+      type: award
+      credits: 1
+    - event: match_has_match
+      type: award
+      credits: winners
+    - event: special
+      type: special
+      credits: 1
+    - event: game_ending{current_player.score > settings.replay_score}
+      type: award
+      credits: 1
+    - event: high_score_credit
+      type: high_score
+      credits: 1
+    - event: match
+      type: match
+      credits: 1
+  fractional_credit_expiration_time: 15m
+  credit_expiration_time: 2h
+  persist_credits_while_off_time: 1h
+  free_play_string: FREE PLAY
+  credits_string: CREDITS
+
+widget_styles:
+  text_default:
+    font_name: Quadrit
+    font_size: 10
+    adjust_top: 2
+    adjust_bottom: 3
+  space_title_huge:
+    font_name: DEADJIM
+    font_size: 29
+    antialias: true
+    adjust_top: 3
+    adjust_bottom: 3
+  space_title:
+    font_name: DEADJIM
+    font_size: 21
+    antialias: true
+    adjust_top: 2
+    adjust_bottom: 3
+  medium:
+    font_name: pixelmix
+    font_size: 8
+    adjust_top: 1
+    adjust_bottom: 1
+  small:
+    font_name: smallest_pixel-7
+    font_size: 9
+    adjust_top: 2
+    adjust_bottom: 3
+  tall_title:
+    font_name: big_noodle_titling
+    font_size: 20
+
+#
+# Sound settings
+#
+sound_system:
+  tracks:
+    voice:
+      volume: 1
+      priorsounity: 2
+      simultaneous_sounds: 1
+      preload: true
+    sfx:
+      volume: 1
+      priority: 1
+      preload: true
+      simultaneous_sounds: 7
+    music:
+      volume: 0.7
+      simultaneous_sounds: 1
+  buffer: 2048  # previous value was 512
+  frequency: 44100
+  channels: 1
+  master_volume: 1
+  enabled: true
+
+sound_pools:
+  bulls_eye_pool:
+    type: random
+    track: sfx
+    sounds:
+      - ThatsGottaHurt
+      - ShitHappens
+      - YourFucked
+      
+assets:
+  sounds:
+    default:
+      track: sfx
+    music:
+      track: music
+    sfx:
+      track: sfx
+    voice:
+      track: voice

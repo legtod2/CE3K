@@ -1,0 +1,19 @@
+#config_version=5
+
+high_score:
+  _overwrite: True
+  enter_initials_timeout: 60
+  categories:  !!omap
+  - score:
+    - GRAND CHAMPION
+    - HIGH SCORE 1
+    - HIGH SCORE 2
+    - HIGH SCORE 3
+    - HIGH SCORE 4
+  defaults:
+    score:
+      - DAD: 660000
+      - QAL: 240000
+      - DAD: 235000
+      - MNL: 200000
+      - NSL: 199000

@@ -1,0 +1,640 @@
+#config_version=5
+
+mode:
+  start_events: ball_starting
+  priority: 100
+
+event_player:
+  player_tilt_warnings{value==3}: my_game_tilted
+  multiplayer_game: player_1_multiplayer_slide
+  player_1_ball_started: player_1_multiplayer_slide
+  player_score{value>=settings.replay_score and current_player.replay_level_1==0}:
+    - replay
+  s_middle_lane_active: spinit
+  s_laneA_active: spinit
+  s_laneB_active: spinit
+  s_laneC_active: spinit
+  s_ltarget_active: spinit
+
+
+slide_player:
+  replay: 
+    slide_replay:
+      expire: 2s
+  single_player_ball_started: slide_1
+  player_1_multiplayer_slide: slide_2
+  player_2_ball_started: slide_3
+  player_3_ball_started: slide_4
+  player_4_ball_started: slide_5
+  spinit: 
+    slide_spinit:
+      expire: 1s
+
+
+sound_player:
+  mode_base_started:
+    spoons_beat:
+      loops: -1
+  LANE_lanes_hit:
+    spoons_beat:
+      action: stop
+#    base_background_music:
+#    spoons_beat:
+#      loops: -1
+#  s_outhole_active:
+#    base_background_music:
+#    spoons_beat:
+#      action: stop
+  play_1000_pts: 1000_pts
+  s_bullseye_active: bulls_eye_pool
+  s_ltarget_active: 1000_pts
+  s_upper_bullseye_active: 1000_pts
+  s_lower_bullseye_active: 1000_pts
+  s_spinner_active: 10_pts
+  s_10pts_active: 10_pts
+  s_laneA_active: 1000_pts
+  s_laneB_active: 1000_pts
+  s_laneC_active: 1000_pts
+  s_rbdrop1_active: 1000_pts
+  s_rbdrop2_active: 1000_pts
+  s_rbdrop3_active: 1000_pts
+  s_rbdrop4_active: 1000_pts
+  s_rbdrop5_active: 1000_pts
+  s_lslingshot_active: 10_pts
+  s_left_inlane_active: 1000_pts
+# There is no s_left_inlane or s_right_inlane only s_middle_lane
+  s_middle_lane_active: 1000_pts
+  s_left_outlane_active: doh
+  s_right_outlane_active: doh
+  s_tjet_active: 100_pts
+  s_bjet_active: 100_pts
+  s_left_coin_active: payback_time
+  s_coin_btn_active: payback_time
+  s_start_active: YourFucked
+
+sequence_shots:
+  my_eb_sequence_shot:
+    event_sequence:
+#      - player_extraball_lamp_on
+      - logicblock_LANE_lanes_updated{value==5}
+      - s_bullseye_active
+    cancel_events: cancel_eb
+    delay_event_list: 
+      delay1: 1s
+
+# Award extrabox when Letter E of word Phoenix lite and Bullseye hit
+extra_balls:
+  score_one:
+    enabled: true
+    award_events: my_eb_sequence_shot_hit
+
+show_player:
+  award_replay:
+    replay_show:
+      loops: 2
+  player_bonus{value==10}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==20}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus20
+        color1: white
+  player_bonus{value==30}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==1}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus1 
+        color1: white
+  player_bonus{value==11}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus1, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==21}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus1, l_bonus20
+        color1: white
+  player_bonus{value==31}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus1, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==2}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus2
+        color1: white
+  player_bonus{value==12}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus2, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==22}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus2, l_bonus20
+        color1: white
+  player_bonus{value==32}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus2, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==3}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus3
+        color1: white
+  player_bonus{value==13}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus3, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==23}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus3, l_bonus20
+        color1: white
+  player_bonus{value==33}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus3, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==4}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus4
+        color1: white
+  player_bonus{value==14}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus4, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==24}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus4, l_bonus20
+        color1: white
+  player_bonus{value==34}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus4, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==5}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus5
+        color1: white
+  player_bonus{value==15}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus5, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==25}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus5, l_bonus20
+        color1: white
+  player_bonus{value==35}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus5, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==6}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus6
+        color1: white
+  player_bonus{value==16}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==26}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus6, l_bonus20
+        color1: white
+  player_bonus{value==36}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus6, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==7}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus7
+        color1: white
+  player_bonus{value==17}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus7, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==27}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus7, l_bonus20
+        color1: white
+  player_bonus{value==37}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus7, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==8}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus8
+        color1: white
+  player_bonus{value==18}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus8, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==28}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus8, l_bonus20
+        color1: white
+  player_bonus{value==38}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus8, l_bonus10, l_bonus20
+        color1: white
+  player_bonus{value==9}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus9
+        color1: white
+  player_bonus{value==19}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus9, l_bonus10, l_spinner
+        color1: white
+  player_bonus{value==29}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus9, l_bonus20
+        color1: white
+  player_bonus{value==39}:
+    playfield_light:
+      show_tokens:
+        lights: l_bonus9, l_bonus10, l_bonus20
+        color1: white
+
+variable_player:
+# Was Game tilted
+  my_game_tilted:
+    my_tilted:
+      int: 1
+      action: set 
+# After replay awarded stop awarding again for every extra point.
+  replay:
+    replay_level_1:
+      int: 1
+      action: set
+  ball_started:
+# My tilt variable
+    my_tilted:
+      int: 0
+      action: set
+# Reset Extra ball awarded to 0
+    my_extraball_awarded:
+      int: 0
+      action: set
+# Initialize spinner starting value to 100, multipler = 1 and turn off extraball lamp
+    spinner_value:
+      int: 100
+      action: set
+# See multiplier & my_multiplier in droptargets.yaml
+    multiplier:
+      int: 1
+      action: set
+    my_multiplier:
+      int: 1
+      action: set
+    extraball_lamp_on:
+      int: 0
+      action: set
+    spinner_lamp_on:
+      int: 0
+      action: set
+    bullseye_bonus:
+      int: 5000
+      action: set
+          
+  s_10pts_active:
+    score: 10 * current_player.multiplier
+      
+# Increase spinner value from 100 to 1,000 when we reach 10 bonus pts, reset back to 100 pts when bonus pts greater than 20 
+  player_bonus{value>=10}:
+    spinner_value:
+      int: 100 if current_player.bonus>=20 else 1000
+      action: set
+    spinner_lamp_on:
+      int: 0 if current_player.bonus>=20 else 1
+      action: set
+
+# Top 2 bullseye
+  s_upper_bullseye_active:
+    score: current_player.bullseye_value * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0
+  s_lower_bullseye_active:
+    score: current_player.bullseye_value * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0
+
+# Rotor targets
+# Star
+  s_left1_rotor_active:
+    score: 500 * current_player.multiplier
+# Star
+  s_center1_rotor_active:
+    score: 500 * current_player.multiplier
+# Star    
+  s_right1_rotor_active:
+    score: 500 * current_player.multiplier
+# 300 pts
+  s_left2_rotor_active:
+    score: 300 * current_player.multiplier
+  s_center2_rotor_active:
+    score: 300 * current_player.multiplier
+  s_right2_rotor_active:
+    score: 300 * current_player.multiplier
+# 400 pts
+  s_left3_rotor_active:
+    score: 400 * current_player.multiplier
+# 400 pts
+  s_center3_rotor_active:
+    score: 400 * current_player.multiplier
+# 400 pts
+  s_right3_rotor_active:
+    score: 400 * current_player.multiplier
+# 500 pts
+  s_left4_rotor_active:
+    score: 500 * current_player.multiplier
+# 500 pts
+  s_center4_rotor_active:
+    score: 500 * current_player.multiplier
+# 500 pts
+  s_right4_rotor_active:
+    score: 500 * current_player.multiplier
+
+
+# The playfield has 3 switches mapping to the same switch matrix (Left inside lane, Right inside line, middle right lane) (it also triggers rotor coil)
+  s_middle_lane_active:
+    score: 500 * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0
+
+  s_spinner_active:
+    score: current_player.spinner_value * current_player.multiplier
+  s_bullseye_active:
+    score: current_player.bullseye_bonus * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0    
+  s_laneA_active:
+    score: 5000 * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0
+  s_laneB_active:
+    score: 5000 * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0
+  s_laneC_active:
+    score: 5000 * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0
+  s_ltarget_active:
+    score: 500 * current_player.multiplier
+    bonus: 1 if current_player.bonus<=38 else 0
+  s_tjet_active:
+    score: 1000 * current_player.multiplier
+  s_bjet_active:
+    score: 1000 * current_player.multiplier
+  s_lslingshot_active:
+    score: 10 * current_player.multiplier
+  s_rslingshot_active:
+    score: 10 * current_player.multiplier
+  s_rbdrop1_active:
+    score: 500 * current_player.multiplier
+  s_rbdrop2_active:
+    score: 500 * current_player.multiplier
+  s_rbdrop3_active:
+    score: 500 * current_player.multiplier
+  s_rbdrop4_active:
+    score: 500 * current_player.multiplier
+  s_rbdrop5_active:
+    score: 500 * current_player.multiplier
+
+slides:
+  slide_spinit:
+  - type: text
+    color: red
+    text: Rotor Values
+    anchor_y: bottom
+#    anchor_x: left
+  - type: text    
+    color: red
+    text: 300, 500, 500
+    anchor_y: top
+#    anchor_x: left
+  slide_replay:
+  - type: text
+    text: R E P L A Y
+  slide_1:
+  - type: text
+    text: (player1|score)
+    number_grouping: true
+    min_digits: 2
+    y: middle+2
+      #persist_slide: yes
+    style: tall_title
+  - type: text
+    color: orange
+    text: Player1 BALL (player1|ball) (machine|credits_string)
+    anchor_y: bottom
+    anchor_x: left
+    style: small
+    y: bottom + 1
+    x: 0
+
+  slide_2:
+  - type: text
+    text: (player1|score)
+      #font: medium
+    number_grouping: true
+    min_digits: 2
+    anchor_y: top
+    anchor_x: right
+    x: right-60
+    y: top-2
+  - type: text
+    text: (player2|score)
+    style: medium
+    anchor_y: top
+    anchor_x: right
+    number_grouping: true
+    min_digits: 2
+    x: right-2
+    y: top-2
+  - type: text
+    text: (player3|score)
+    style: medium
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-60
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: (player4|score)
+    style: medium
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-2
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: PLAYER1 BALL (player1|ball) (machine|credits_string)
+    anchor_y: bottom
+    anchor_x: left
+    style: small
+    y: bottom + 1
+    x: 0
+
+  slide_3:
+  - type: text
+    text: (player1|score)
+    style: medium
+    number_grouping: true
+    min_digits: 2
+    anchor_y: top
+    anchor_x: right
+    x: right-60
+    y: top-2
+  - type: text
+    text: (player2|score)
+    anchor_y: top
+    anchor_x: right
+    number_grouping: true
+    min_digits: 2
+    x: right-2
+    y: top-2
+  - type: text
+    text: (player3|score)
+    style: medium
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-60
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: (player4|score)
+    style: medium
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-2
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: PLAYER2 BALL (player2|ball) (machine|credits_string)
+    anchor_y: bottom
+    anchor_x: left
+    style: small
+    y: bottom + 1
+    x: 0
+
+  slide_4:
+  - type: text
+    text: (player1|score)
+    style: medium
+    number_grouping: true
+    min_digits: 2
+    anchor_y: top
+    anchor_x: right
+    x: right-60
+    y: top-2
+  - type: text
+    text: (player2|score)
+    style: medium
+    anchor_y: top
+    anchor_x: right
+    number_grouping: true
+    min_digits: 2
+    x: right-2
+    y: top-2
+  - type: text
+    text: (player3|score)
+#      font: medium
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-60
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: (player4|score)
+    style: medium
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-2
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: PLAYER3 BALL (player3|ball) (machine|credits_string)
+    anchor_y: bottom
+    anchor_x: left
+    style: small
+    y: bottom + 1
+    x: 0
+
+  slide_5:
+  - type: text
+    text: (player1|score)
+    style: medium
+    number_grouping: true
+    min_digits: 2
+    anchor_y: top
+    anchor_x: right
+    x: right-60
+    y: top-2
+  - type: text
+    text: (player2|score)
+    style: medium
+    anchor_y: top
+    anchor_x: right
+    number_grouping: true
+    min_digits: 2
+    x: right-2
+    y: top-2
+  - type: text
+    text: (player3|score)
+    style: medium
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-60
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: (player4|score)
+    anchor_y: bottom
+    anchor_x: right
+    y: bottom+10
+    x: right-2
+    number_grouping: true
+    min_digits: 2
+  - type: text
+    text: PLAYER4 BALL (player4|ball) (machine|credits_string)
+    anchor_y: bottom
+    anchor_x: left
+    style: small
+    y: bottom + 1
+    x: 0
+
+

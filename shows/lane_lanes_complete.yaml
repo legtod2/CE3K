@@ -1,0 +1,16 @@
+#show_version=5
+  - duration: 500ms
+    lights:
+      l_laneA: 0
+      l_laneB: ff
+      l_laneC: ff
+  - duration: 500ms
+    lights:
+      l_laneA: ff
+      l_laneB: 0
+      l_laneC: ff
+  - duration: 500ms
+    lights:
+      l_laneA: ff
+      l_laneB: ff
+      l_laneC: 0

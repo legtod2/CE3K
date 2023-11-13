@@ -1,0 +1,14 @@
+#show_version=5
+- time: 0
+  lights:
+    l_bonus1: 0
+    l_bonus2: 0
+    l_bonus3: 0
+    l_bonus4: 0
+    l_bonus5: 0
+    l_bonus6: 0
+    l_bonus7: 0
+    l_bonus8: 0
+    l_bonus9: 0
+    l_bonus10: 0
+    l_bonus20: 0

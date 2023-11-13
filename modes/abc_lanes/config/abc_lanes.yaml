@@ -1,0 +1,99 @@
+#config_version=5
+# July 12,2022 add lanes A,B,C change when flipper pressed
+
+mode:
+  start_events: ball_started
+  priority: 110
+
+# Spell A-B-C top 3 lanes
+counters:
+  LANE_lanes:
+    count_events: LANE_lanes_complete
+    events_when_hit: LANE_lanes_done
+    starting_count: 1
+    direction: up
+    count_complete_value: 8
+    disable_on_complete: true
+# The value of spelled letters is carried to next ball
+    persist_state: True
+
+slide_player:
+  LANE_lanes_done{count==1}: 
+    slide_extraball_lit:
+      expire: 3s
+
+slides:
+  slide_extraball_lit:
+    - type: text
+      text: Extraball Lit
+      color: red
+    - type: rectangle
+      width: 128
+      height: 32
+
+shots:
+  top_laneA:
+    switch: s_laneA
+    show_tokens:
+        light: l_laneA
+  top_laneB:
+    switch: s_laneB
+    show_tokens:
+        light: l_laneB
+  top_laneC:
+    switch: s_laneC
+    show_tokens:
+        light: l_laneC
+
+shot_groups:
+  LANE_lanes:
+    shots: top_laneA, top_laneB, top_laneC
+    rotate_left_events: s_flipper_left_active
+    rotate_right_events: s_flipper_right_active
+    reset_events: LANE_lanes_lit_complete
+#      LANE_lanes_lit_complete: 1s
+
+variable_player:
+  extra_ball_score_one_awarded:
+    my_extraball_awarded:
+      int: 1
+      action: set
+  LANE_lanes_done{count==1}:
+    score: 1000
+    bullseye_bonus:
+      int: 1000
+      action: set
+    extraball_lamp_on:
+      int: 1
+      action: set
+  LANE_lanes_done{count==2}:
+    score: 1000
+    bullseye_bonus:
+      int: 1000
+      action: set
+    extraball_lamp_on:
+      int: 1
+      action: set
+
+show_player:
+  extra_ball_score_one_awarded:
+    playfield_light:
+      show_tokens:
+        lights: l_shotagain
+        color1: yellow
+
+  extra_ball_score_one_awarded.1: 
+    extraball_show:
+      loops: 2
+
+  LANE_lanes_done{count==2}:
+    playfield_light:
+      show_tokens:
+        lights: l_extraball
+        color1: yellow
+
+  LANE_lanes_lit_complete:
+    lane_lanes_complete:
+      speed: 20
+      loops: 10
+      priority: 1

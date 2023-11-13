@@ -1,0 +1,191 @@
+#config_version=5
+switches:
+  s_flipper_right:
+    number: 1-0-1 
+    tags: player, high_score_right, right_flipper
+    label:
+  s_flipper_left:
+    number: 1-0-2
+    tags: player, high_score_left, left_flipper
+    label:
+# Left slingshot Used for Points and trigger coil
+  s_lslingshot:
+    number: 1-0-8
+    label:
+    tags: slingshot
+
+# top bumper (Used to trigger coil)
+  s_tjet:
+    number: 1-0-10
+    label:
+    tags: jet
+# bottom bumper (Used to trigger coil)
+  s_bjet:
+    number: 1-0-9
+    label:
+    tags: jet
+# Coil switch bank 
+  s_rbdstandup: 
+    number: 1-0-11
+
+
+# Service Switches
+  s_door_open:
+    number: 0-0-16
+    tags: service_door_open, power_off
+  s_service_enter:
+    number: 0-0-17
+    tags: service_enter
+  s_service_esc:
+    number: 0-0-18
+    tags: service_esc
+  s_service_up:
+    number: 0-0-19
+    tags: service_up
+  s_service_down:
+    number: 0-0-24
+    tags: service_down
+  s_shutdown:
+    number: 0-0-25
+
+  s_outhole:
+    number: 1-0-3
+    label:
+    tags: 
+
+# Switch Matrix
+  s_test_btn:
+    number: 1-0-32
+    label:    
+  s_coin_btn:
+    number: 1-0-40
+  s_left_coin:
+    number: 1-0-48
+    tags:
+    label:
+  s_start:
+    number: 1-0-56
+    label:
+    tags: start, player, high_score_select
+  s_plumb_bob:
+    number: 1-0-64
+    label:
+    tags: tilt_warning
+  s_spinner:
+    number: 1-0-33
+    label:
+  s_ltarget:
+    number: 1-0-41
+    tags:
+    label:
+  s_laneA:
+    number: 1-0-49
+    label:
+  s_laneB:
+    number: 1-0-57
+    label:
+  s_laneC:
+    number: 1-0-65
+    label:
+  s_rbdrop1:
+    number: 1-0-34
+    tags:
+    label:
+# Jet bumper (just for counting points not used to trigger coil ! Same switch for top & bottom bumper)
+  s_jetcntr:
+    number: 1-0-42
+    label:
+# Drop # 3
+  s_rbdrop3:
+    number: 1-0-35
+    tags:
+    label:
+  s_10pts:
+    number: 1-0-43
+    tags: 
+# Rotor target and or left outside lane
+  s_left1_rotor:
+    number: 1-0-51
+    label:
+    tags: 
+  s_center1_rotor:
+    number: 1-0-59
+    label:
+# Rotor target and or right outside lane
+  s_right1_rotor:
+    number: 1-0-67
+    label:
+    tags: 
+# Drop target #5
+  s_rbdrop5:
+    number: 1-0-36
+    tags:
+    label:
+# This is three switches (Left Inside lane, Right Inside lane and middle right lane right inlane)
+  s_middle_lane:
+    number: 1-0-44
+    label:
+    tags: 
+# Left rotor2 and/or left outside lane (same switch)
+  s_left2_rotor:
+    number: 1-0-52
+    label:
+    tags: 
+  s_center2_rotor:
+    number: 1-0-60
+    label:
+# Rotor target and or right outside lane
+  s_right2_rotor:
+    number: 1-0-68
+    label:
+# Drop target #2
+  s_rbdrop2:
+    number: 1-0-37
+    tags:
+    label:
+  s_lower_bullseye:
+    number: 1-0-45
+    tags:
+    label:
+# Left rotor3 and/or left outside lane (same switch)
+  s_left3_rotor:
+    number: 1-0-53
+    label:
+    tags: 
+  s_center3_rotor:
+    number: 1-0-61
+    label:
+# Rotor target and or right outside lane
+  s_right3_rotor:
+    number: 1-0-69
+    label:
+# Drop target #4
+  s_rbdrop4:
+    number: 1-0-38
+    tags:
+    label:
+  s_upper_bullseye:
+    number: 1-0-46
+    tags:
+    label:
+# Left rotor4 and/or left outside lane (same switch)
+  s_left4_rotor:
+    number: 1-0-54
+    label:
+    tags: 
+  s_center4_rotor:
+    number: 1-0-62
+    label:
+# Rotor target and or right outside lane
+  s_right4_rotor:
+    number: 1-0-70
+    label:
+
+
+
+
+
+
+
+
+
